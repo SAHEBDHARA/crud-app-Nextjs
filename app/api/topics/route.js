@@ -30,3 +30,5 @@ export async function DELETE(request){
     await Topic.findByIdAndDelete(id);
     return NextResponse.json({message: 'deleted'})
 }
+
+

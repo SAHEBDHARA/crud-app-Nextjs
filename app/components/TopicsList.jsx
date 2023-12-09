@@ -1,6 +1,7 @@
 import RemoveButton from "./RemoveButton";
 import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
+import CompleteButton from "./CompleteButton";
 
 const getTopics = async () => {
   try {
@@ -17,6 +18,8 @@ const getTopics = async () => {
   }
 };
 
+
+
 const TopicsList = async () => {
 
 const {topics} = await getTopics(); 
@@ -29,6 +32,9 @@ const {topics} = await getTopics();
           <h2 className="font-bold text-2xl text-primary">{t.title}</h2>
           <p className="text-gray-600">{t.description}</p>
         </div>
+        <div  className="flex items-center mr-5 mt-3 cursor-pointer" >
+          <CompleteButton isDone={t.isDone} id={t._id}/>
+          </div>
         <div className="flex gap-2">
           <RemoveButton id={t._id} />
           <Link href={`/edit/${t._id}`}>
