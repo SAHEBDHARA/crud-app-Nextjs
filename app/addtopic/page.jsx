@@ -1,27 +1,44 @@
 'use client'
 import React, { useState } from "react";
-
+import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast'
 
 const AddTopicForm = () => {
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [description, setText] = useState("");
+  const router = useRouter()
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
-
   const handleTextChange = (e) => {
     setText(e.target.value);
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your logic to handle form submission here
-    console.log("Title:", title);
-    console.log("Text:", text);
-    // Reset the form after submission if needed
-    setTitle("");
-    setText("");
+   if(!title || !description){
+    alert("Please give input");
+    return; 
+   }
+   try {
+    const res = await fetch('http://localhost:3000/api/topics',{ 
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body:JSON.stringify({title, description})
+  })
+    if(res.ok){
+      toast.success('Topics Added Successfully')
+      router.push('/')
+
+    }else{
+      throw new Error("Falid to push the data ")
+    }
+   } catch (error) {
+    console.log(error)
+   }
+  
   };
 
   return (
@@ -49,7 +66,7 @@ const AddTopicForm = () => {
           <textarea
             id="text"
             name="text"
-            value={text}
+            value={description}
             onChange={handleTextChange}
             rows="4"
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
