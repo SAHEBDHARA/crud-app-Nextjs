@@ -60,4 +60,5 @@ const Navbar = () => {
   );
 };
 
+// don't kknow what ot pus
 export default Navbar;
